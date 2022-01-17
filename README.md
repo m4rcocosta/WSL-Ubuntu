@@ -64,7 +64,7 @@ echo "`whoami` ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/`whoami` && sud
 sudo apt install docker.io -y
 docker --version
 ```
-- Add to the bottom of `/etc/sudousers` file:
+- Add to the bottom of `/etc/sudoers` file:
 ```
 # Docker daemon specification
 <yourusername> ALL=(ALL) NOPASSWD: /usr/bin/dockerd
@@ -74,14 +74,15 @@ Note: replace <yourusername> with your username.
 ```
 # Start Docker daemon automatically when logging in if not running.
 RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then' >> ~/.bashrc
+if [ -z "$RUNNING" ]; then
     sudo dockerd > /dev/null 2>&1 &
-    disown' >> ~/.bashrc
+    disown
 fi
 ```
 - Add your username to docker group so you can run docker as a non-root user:
 ```
 sudo usermod -aG docker $USER
+newgrp docker
 ```
 - Try with:
 ```
