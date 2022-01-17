@@ -99,6 +99,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo apt install xrdp xfce4
 sudo cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.ini.bak
 sudo sed -i 's/3389/3390/g' /etc/xrdp/xrdp.ini # So it doesn't interfere with Windows RDP on 3389
+sudo sed -i 's/max_bpp=32/#max_bpp=32\nmax_bpp=128/g' /etc/xrdp/xrdp.ini
+sudo sed -i 's/xserverbpp=24/#xserverbpp=24\nxserverbpp=128/g' /etc/xrdp/xrdp.ini
 ```
 In `/etc/xrdp/startwm.sh`, comment out the last two lines (that mention Xsession) and add:
 ```
