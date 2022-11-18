@@ -72,6 +72,7 @@ newgrp docker
 ```
 docker run hello-world
 ```
+
 ### Install docker-compose:
 ```
 mkdir -p ~/.docker/cli-plugins/
@@ -80,6 +81,20 @@ chmod +x ~/.docker/cli-plugins/docker-compose
 docker compose version
 ```
 Check last version [here](https://github.com/docker/compose/releases).
+
+### Portainer
+#### Install
+```
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+```
+#### Update
+```
+docker stop portainer
+docker rm portainer
+docker pull portainer/portainer-ce:latest
+docker run -d -p 8000:8000 -p 9443:9443 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+```
 
 ## Ruby
 ```
@@ -96,6 +111,21 @@ gem install bundler
 ### Install Rails
 ```
 gem install rails -v 7.0.4
+```
+
+## Angular CLI
+### Install Node.js
+```
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+source ~/.zshrc
+nvm install v18
+node -v
+npm -v
+```
+### Install Angular CLI
+```
+npm install @angular/cli --location=global
+ng version 
 ```
 
 ## Install OhMyZsh
