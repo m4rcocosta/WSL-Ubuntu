@@ -1,8 +1,5 @@
 # WSL-Ubuntu
 
-## Needed:
-- [Vcxsrv](https://sourceforge.net/projects/vcxsrv/)
-
 ## Install WSL2
 - Open powershell and digit:
 ```
@@ -25,19 +22,11 @@ sudo apt update && sudo apt -y upgrade
 sudo apt install build-essential net-tools python3-pip
 sudo pip3 install virtualenv virtualenvwrapper
 ```
-
-## Install OhMyZsh
+## Remove sudo password:
 ```
-sudo apt install zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone --recursive git://github.com/joel-porquet/zsh-dircolors-solarized $ZSH_CUSTOM/plugins/zsh-dircolors-solarized
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-pip3 install pygmentize
+echo "`whoami` ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/`whoami` && sudo chmod 0440 /etc/sudoers.d/`whoami`
 ```
-
-## Install Brew
+## Brew
 ```
 sudo apt-get install build-essential curl file git
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -52,11 +41,6 @@ brew install fzf
 
 # To install useful key bindings and fuzzy completion:
 $(brew --prefix)/opt/fzf/install
-```
-
-## Remove sudo password:
-```
-echo "`whoami` ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/`whoami` && sudo chmod 0440 /etc/sudoers.d/`whoami`
 ```
 
 ## Docker
@@ -88,36 +72,78 @@ newgrp docker
 ```
 docker run hello-world
 ```
-- Install docker-compose:
+### Install docker-compose:
 ```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+mkdir -p ~/.docker/cli-plugins/
+curl -SL https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+chmod +x ~/.docker/cli-plugins/docker-compose
+docker compose version
 ```
-  
-## GUI - XFCE
-```
-sudo apt install xrdp xfce4
-sudo cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.ini.bak
-sudo sed -i 's/3389/3390/g' /etc/xrdp/xrdp.ini # So it doesn't interfere with Windows RDP on 3389
-sudo sed -i 's/max_bpp=32/#max_bpp=32\nmax_bpp=128/g' /etc/xrdp/xrdp.ini
-sudo sed -i 's/xserverbpp=24/#xserverbpp=24\nxserverbpp=128/g' /etc/xrdp/xrdp.ini
-```
-In `/etc/xrdp/startwm.sh`, comment out the last two lines (that mention Xsession) and add:
-```
-#test -x /etc/X11/Xsession && exec /etc/X11/Xsession
-#exec /bin/sh /etc/X11/Xsession
-exec startxfce4
-```
-Start xrdp with:
-```
-sudo service xrdp start
-```
-You should be able to connect to your WSL Desktop using the built-in Remote Desktop Connection app. The computer to connect to will be `localhost:3390`. Make sure Xorg is selected as the Session type.
+Check last version [here](https://github.com/docker/compose/releases).
 
-## JetBrains:
+## Ruby
 ```
-sudo apt install libcups2 libpangocairo-1.0-0 libatk-adaptor libxss1 libnss3 libxcb-keysyms1 x11-apps libgbm1
-wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.22.10970.tar.gz
-tar -zxf jetbrains-toolbox-*.tar.gz
+sudo apt install git curl autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
+curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+source ~/.zshrc
+rbenv install -l
+rbenv install 3.1.2
+rbenv global 3.1.2
+gem install bundler
 ```
-Note: check for last version [here](https://www.jetbrains.com/toolbox-app/download/download-thanks.html?platform=linux)
+### Install Rails
+```
+gem install rails -v 7.0.4
+```
+
+## Install OhMyZsh
+```
+sudo apt install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+### Themes
+- Install fonts in `Font powerlevel10k` folder
+- Set the installed font in Ubuntu Terminal settings
+```
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+- Set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
+```
+source ~/.zshrc
+```
+- Configure theme
+- Edit `~/.p10k.zsh` for more customization
+### Plugins
+- [Fast Syntax Highlighting](https://github.com/zdharma-continuum/fast-syntax-highlighting): `git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting`, then add `fast-syntax-highlighting` to `~/.zshrc` plugin list;
+- [Zsh Autosuggestion](https://github.com/zsh-users/zsh-autosuggestions): `git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`, then add `zsh-autosuggestions` to `~/.zshrc` plugin list;
+- [Zsh Dircolors Solarized](https://github.com/joel-porquet/zsh-dircolors-solarized): `git clone --recursive https://github.com/joel-porquet/zsh-dircolors-solarized $ZSH_CUSTOM/plugins/zsh-dircolors-solarized`, then add `zsh-dircolors-solarized` to `~/.zshrc` plugin list;
+- [Zsh 256 Color](https://github.com/chrissicool/zsh-256color): `( cd $ZSH_CUSTOM/plugins && git clone https://github.com/chrissicool/zsh-256color )`, then add `zsh-256color` to `~/.zshrc` plugin list;
+- [Auto Color Ls](https://github.com/gretzky/auto-color-ls): `( cd $ZSH_CUSTOM/plugins && git clone https://github.com/gretzky/auto-color-ls )`, then add `auto-color-ls` to `~/.zshrc` plugin list (`colorls` needed - `gem install colorls`);
+- [Oh My Matrix](https://github.com/amstrad/oh-my-matrix): ` git clone https://github.com/amstrad/oh-my-matrix ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/oh-my-matrix`, then add `oh-my-matrix` to `~/.zshrc` plugin list;
+- [Autoupdate](https://github.com/tamcore/autoupdate-oh-my-zsh-plugins): `git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins $ZSH_CUSTOM/plugins/autoupdate`, then add `autoupdate` to `~/.zshrc` plugin list;
+- [Zsh Colorls](https://github.com/Kallahan23/zsh-colorls): `git clone https://github.com/Kallahan23/zsh-colorls ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-colorls`, then add `zsh-colorls` to `~/.zshrc` plugin list (`colorls` needed - `gem install colorls`);
+- [Zsh Interactive Cd](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/zsh-interactive-cd): Add `zsh-colorls` to `~/.zshrc` plugin list (`fzf` needed - see [installation instructions](https://github.com/junegunn/fzf#installation));
+- [Git](https://github.com/davidde/git): `git clone https://github.com/davidde/git.git ~/.oh-my-zsh/custom/plugins/git`, then add `git` to `~/.zshrc` plugin list;
+
+### Alias
+Add the following aliases in `~/.zshrc`
+```
+ZSH_ALIAS_FINDER_AUTOMATIC=true
+alias cat="ccat"
+alias less="cless"
+alias ls="colorls"
+alias python="python3"
+```
+
+## Virtualenv Wrapper
+```
+sudo pip install virtualenvwrapper
+```
+- Add in `~/.zshrc`:
+```
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+source /usr/local/bin/virtualenvwrapper.sh
+```
