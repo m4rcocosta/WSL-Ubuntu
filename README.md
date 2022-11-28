@@ -6,7 +6,6 @@
 wsl --install
 ```
 - Restart
-```
 - Start the distro installed and configure it
 - Update with:
 ```
