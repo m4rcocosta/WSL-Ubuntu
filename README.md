@@ -3,15 +3,10 @@
 ## Install WSL2
 - Open powershell and digit:
 ```
-dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+wsl --install
 ```
 - Restart
-- Open powershell and digit:
 ```
-wsl --set-default-version 2
-```
-- Install Ubuntu or any other distro from Microsoft Store
 - Start the distro installed and configure it
 - Update with:
 ```
