@@ -1,7 +1,7 @@
 # WSL-Ubuntu
 
 ## Install WSL2
-- Open powershell and digit:
+- Open powershell in administrator mode and digit:
 ```
 wsl --install
 ```
