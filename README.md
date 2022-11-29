@@ -16,10 +16,51 @@ sudo apt update && sudo apt -y upgrade
 sudo apt install build-essential net-tools python3-pip
 sudo pip3 install virtualenv virtualenvwrapper
 ```
+
 ## Remove sudo password:
 ```
 echo "`whoami` ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/`whoami` && sudo chmod 0440 /etc/sudoers.d/`whoami`
 ```
+
+## Install OhMyZsh
+```
+sudo apt install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+### Themes
+- Install fonts in `Font powerlevel10k` folder
+- Set the installed font in Ubuntu Terminal settings
+```
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+- Set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
+```
+source ~/.zshrc
+```
+- Configure theme
+- Edit `~/.p10k.zsh` for more customization
+### Plugins
+- [Fast Syntax Highlighting](https://github.com/zdharma-continuum/fast-syntax-highlighting): `git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting`, then add `fast-syntax-highlighting` to `~/.zshrc` plugin list;
+- [Zsh Autosuggestion](https://github.com/zsh-users/zsh-autosuggestions): `git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`, then add `zsh-autosuggestions` to `~/.zshrc` plugin list;
+- [Zsh Dircolors Solarized](https://github.com/joel-porquet/zsh-dircolors-solarized): `git clone --recursive https://github.com/joel-porquet/zsh-dircolors-solarized $ZSH_CUSTOM/plugins/zsh-dircolors-solarized`, then add `zsh-dircolors-solarized` to `~/.zshrc` plugin list;
+- [Zsh 256 Color](https://github.com/chrissicool/zsh-256color): `( cd $ZSH_CUSTOM/plugins && git clone https://github.com/chrissicool/zsh-256color )`, then add `zsh-256color` to `~/.zshrc` plugin list;
+- [Auto Color Ls](https://github.com/gretzky/auto-color-ls): `( cd $ZSH_CUSTOM/plugins && git clone https://github.com/gretzky/auto-color-ls )`, then add `auto-color-ls` to `~/.zshrc` plugin list (`colorls` needed - `gem install colorls`);
+- [Oh My Matrix](https://github.com/amstrad/oh-my-matrix): ` git clone https://github.com/amstrad/oh-my-matrix ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/oh-my-matrix`, then add `oh-my-matrix` to `~/.zshrc` plugin list;
+- [Autoupdate](https://github.com/tamcore/autoupdate-oh-my-zsh-plugins): `git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins $ZSH_CUSTOM/plugins/autoupdate`, then add `autoupdate` to `~/.zshrc` plugin list;
+- [Zsh Colorls](https://github.com/Kallahan23/zsh-colorls): `git clone https://github.com/Kallahan23/zsh-colorls ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-colorls`, then add `zsh-colorls` to `~/.zshrc` plugin list (`colorls` needed - `gem install colorls`);
+- [Zsh Interactive Cd](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/zsh-interactive-cd): Add `zsh-colorls` to `~/.zshrc` plugin list (`fzf` needed - see [installation instructions](https://github.com/junegunn/fzf#installation));
+- [Git](https://github.com/davidde/git): `git clone https://github.com/davidde/git.git ~/.oh-my-zsh/custom/plugins/git`, then add `git` to `~/.zshrc` plugin list;
+
+## Alias
+Add the following aliases in `~/.zshrc`
+```
+ZSH_ALIAS_FINDER_AUTOMATIC=true
+alias cat="ccat"
+alias less="cless"
+alias ls="colorls"
+alias python="python3"
+```
+
 ## Brew
 ```
 sudo apt-get install build-essential curl file git
@@ -48,7 +89,7 @@ docker --version
 <yourusername> ALL=(ALL) NOPASSWD: /usr/bin/dockerd
 ```
 Note: replace <yourusername> with your username.
-- Update your profile to automatically run docker daemon (in .zshrc):
+- Update your profile to automatically run docker daemon (in .zshrc or .bashrc, based on your shell):
 ```
 # Start Docker daemon automatically when logging in if not running.
 RUNNING=`ps aux | grep dockerd | grep -v grep`
@@ -95,7 +136,7 @@ docker run -d -p 8000:8000 -p 9443:9443 --name=portainer --restart=always -v /va
 sudo apt install git curl autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
 curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
-echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+echo 'eval "$(rbenv init -)"' >> ~/.zshrc (or .bashrc, based on your shell)
 source ~/.zshrc
 rbenv install -l
 rbenv install 3.1.2
@@ -120,45 +161,6 @@ npm -v
 ```
 npm install @angular/cli --location=global
 ng version 
-```
-
-## Install OhMyZsh
-```
-sudo apt install zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-### Themes
-- Install fonts in `Font powerlevel10k` folder
-- Set the installed font in Ubuntu Terminal settings
-```
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-```
-- Set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
-```
-source ~/.zshrc
-```
-- Configure theme
-- Edit `~/.p10k.zsh` for more customization
-### Plugins
-- [Fast Syntax Highlighting](https://github.com/zdharma-continuum/fast-syntax-highlighting): `git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting`, then add `fast-syntax-highlighting` to `~/.zshrc` plugin list;
-- [Zsh Autosuggestion](https://github.com/zsh-users/zsh-autosuggestions): `git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`, then add `zsh-autosuggestions` to `~/.zshrc` plugin list;
-- [Zsh Dircolors Solarized](https://github.com/joel-porquet/zsh-dircolors-solarized): `git clone --recursive https://github.com/joel-porquet/zsh-dircolors-solarized $ZSH_CUSTOM/plugins/zsh-dircolors-solarized`, then add `zsh-dircolors-solarized` to `~/.zshrc` plugin list;
-- [Zsh 256 Color](https://github.com/chrissicool/zsh-256color): `( cd $ZSH_CUSTOM/plugins && git clone https://github.com/chrissicool/zsh-256color )`, then add `zsh-256color` to `~/.zshrc` plugin list;
-- [Auto Color Ls](https://github.com/gretzky/auto-color-ls): `( cd $ZSH_CUSTOM/plugins && git clone https://github.com/gretzky/auto-color-ls )`, then add `auto-color-ls` to `~/.zshrc` plugin list (`colorls` needed - `gem install colorls`);
-- [Oh My Matrix](https://github.com/amstrad/oh-my-matrix): ` git clone https://github.com/amstrad/oh-my-matrix ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/oh-my-matrix`, then add `oh-my-matrix` to `~/.zshrc` plugin list;
-- [Autoupdate](https://github.com/tamcore/autoupdate-oh-my-zsh-plugins): `git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins $ZSH_CUSTOM/plugins/autoupdate`, then add `autoupdate` to `~/.zshrc` plugin list;
-- [Zsh Colorls](https://github.com/Kallahan23/zsh-colorls): `git clone https://github.com/Kallahan23/zsh-colorls ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-colorls`, then add `zsh-colorls` to `~/.zshrc` plugin list (`colorls` needed - `gem install colorls`);
-- [Zsh Interactive Cd](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/zsh-interactive-cd): Add `zsh-colorls` to `~/.zshrc` plugin list (`fzf` needed - see [installation instructions](https://github.com/junegunn/fzf#installation));
-- [Git](https://github.com/davidde/git): `git clone https://github.com/davidde/git.git ~/.oh-my-zsh/custom/plugins/git`, then add `git` to `~/.zshrc` plugin list;
-
-### Alias
-Add the following aliases in `~/.zshrc`
-```
-ZSH_ALIAS_FINDER_AUTOMATIC=true
-alias cat="ccat"
-alias less="cless"
-alias ls="colorls"
-alias python="python3"
 ```
 
 ## Virtualenv Wrapper
