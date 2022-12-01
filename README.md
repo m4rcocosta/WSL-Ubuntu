@@ -109,6 +109,11 @@ docker run hello-world
 ```
 
 ### Install docker-compose:
+#### Version 1.x
+```
+sudo apt install docker-compose
+```
+#### Version 2.x
 ```
 mkdir -p ~/.docker/cli-plugins/
 curl -SL https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
